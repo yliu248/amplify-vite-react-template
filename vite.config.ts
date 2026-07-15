@@ -3,14 +3,22 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  optimizeDeps: {
-    include: [
-      '@aws-amplify/core/internals/utils'
-    ]
+  resolve: {
+    alias: {
+      './runtimeConfig': './runtimeConfig.browser',
+    }
   },
   build: {
+    rollupOptions: {
+      external: [],
+    },
     commonjsOptions: {
-      include: [/node_modules/]
+      transformMixedEsModules: true,
+    }
+  },
+  optimizeDeps: {
+    esbuildOptions: {
+      mainFields: ['module', 'main'],
     }
   }
 })
